@@ -16,6 +16,8 @@ def evaluate(net, dataloader, device):
         # move images and labels to correct device and type
         image = image.to(device=device, dtype=torch.float32)
         mask_true = mask_true.to(device=device, dtype=torch.long)
+        mask_true = torch.where(mask_true>0, 1, 0)
+
         mask_true = F.one_hot(mask_true, net.n_classes).permute(0, 3, 1, 2).float()
 
         with torch.no_grad():
